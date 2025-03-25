@@ -1,0 +1,13 @@
+# Ignore the latex directory
+/latex/
+
+# LaTeX compilation files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.fls
+*.fdb_latexmk
