@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Latent Drifting in Diffusion Models for Counterfactual Medical Image Synthesis</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Latent Drifting (LD) - A novel approach for counterfactual medical image synthesis using diffusion models." />
+    <meta
+      name="keywords"
+      content="Latent Drifting, Diffusion Models, Medical Image Synthesis, Counterfactual, Deep Learning, CVPR 2025, Brain MRI, Chest X-ray"
+    />
+    <meta name="author" content="Technical University of Munich, LMU Munich, Stanford University" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph Meta Tags (For Social Media Sharing) -->
+    <meta
+      property="og:title"
+      content="Latent Drifting in Diffusion Models for Counterfactual Medical Image Synthesis"
+    />
+    <meta
+      property="og:description"
+      content="A novel approach for counterfactual medical image synthesis using diffusion models."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Latent Drifting" />
+
+    <!-- Favicon for different platforms -->
+    <link
+      rel="icon"
+      href="../Assets/Favicon/icons8-research-color-16.png"
+      sizes="16x16"
+      type="image/png"
+    />
+    <link
+      rel="icon"
+      href="../Assets/Favicon/icons8-research-color-32.png"
+      sizes="32x32"
+      type="image/png"
+    />
+    <link
+      rel="icon"
+      href="../Assets/Favicon/icons8-research-color-70.png"
+      sizes="70x70"
+      type="image/png"
+    />
+    <link
+      rel="icon"
+      href="../Assets/Favicon/icons8-research-color-72.png"
+      sizes="72x72"
+      type="image/png"
+    />
+    <link
+      rel="icon"
+      href="../Assets/Favicon/icons8-research-color-96.png"
+      sizes="96x96"
+      type="image/png"
+    />
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      .author-links {
+        display: inline-block;
+        margin-left: 5px;
+      }
+      
+      .author-icon {
+        font-size: 0.9rem;
+        margin-left: 2px;
+        margin-right: 2px;
+        color: #1a73e8;
+      }
+      
+      .teaser-figure {
+        width: 100%;
+        margin: 20px 0;
+        text-align: center;
+      }
+      
+      .teaser-figure img {
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        max-height: 400px;
+        object-fit: contain;
+      }
+      
+      .teaser-caption {
+        margin-top: 10px;
+        font-style: italic;
+        text-align: center;
+        font-size: 0.9em;
+      }
+      
+      .method-figure {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px 0;
+      }
+      
+      .method-figure img {
+        max-width: 100%;
+        max-height: 350px;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      
+      .result-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 20px 0;
+      }
+      
+      .result-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .result-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .result-label {
+        margin-top: 5px;
+        font-size: 0.8em;
+        text-align: center;
+      }
+      
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      
+      .comparison-table th, .comparison-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+        height: 150px;
+        width: 20%;
+      }
+      
+      .comparison-table th {
+        background-color: #f2f2f2;
+        height: auto;
+      }
+      
+      .comparison-table img {
+        max-width: 100%;
+        max-height: 130px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="#abstract">Abstract</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#results">Results</a>
+      <a href="#conclusion">Conclusion</a>
+      <button class="toggle-btn" onclick="toggleDarkMode()">
+        Toggle Dark Mode
+      </button>
+    </nav>
+
+<div class="header">
+  <h1>Latent Drifting in Diffusion Models for Counterfactual Medical Image Synthesis</h1>
+  <div class="authors">
+    <p>
+      <a href="https://www.cs.cit.tum.de/en/camp/members/yousef-yeganeh/">Yousef Yeganeh</a>
+      <span class="author-links">
+        <a href="https://www.cs.cit.tum.de/en/camp/members/yousef-yeganeh/" title="Homepage"><i class="fa-solid fa-home author-icon"></i></a>
+        <a href="https://github.com/youyeg" title="GitHub"><i class="fa-brands fa-github author-icon"></i></a>
+        <a href="https://scholar.google.com/citations?user=7nUYXqMAAAAJ&hl=en" title="Google Scholar"><i class="fa-solid fa-graduation-cap author-icon"></i></a>
+        <a href="https://x.com/youyegn" title="X (Twitter)"><i class="fa-brands fa-x author-icon"></i></a>
+        <a href="https://www.linkedin.com/in/yousefyegane/" title="LinkedIn"><i class="fa-brands fa-linkedin author-icon"></i></a>
+      </span>
+      <sup>1,2</sup>*,
+
+      <a href="https://www.cs.cit.tum.de/en/camp/members/azade-farshad/">Azade Farshad</a>
+      <span class="author-links">
+        <a href="https://www.cs.cit.tum.de/en/camp/members/azade-farshad/" title="Homepage"><i class="fa-solid fa-home author-icon"></i></a>
+        <a href="https://github.com/azadef" title="GitHub"><i class="fa-brands fa-github author-icon"></i></a>
+        <a href="https://scholar.google.com/citations?user=VKZtH1MAAAAJ&hl=en" title="Google Scholar"><i class="fa-solid fa-graduation-cap author-icon"></i></a>
+        <a href="https://x.com/azadef" title="X (Twitter)"><i class="fa-brands fa-x author-icon"></i></a>
+        <a href="https://bsky.app/profile/azadef.bsky.social" title="BlueSky"><i class="fa-solid fa-cloud author-icon"></i></a>
+        <a href="https://www.linkedin.com/in/azadef/" title="LinkedIn"><i class="fa-brands fa-linkedin author-icon"></i></a>
+      </span>
+      <sup>1,2</sup>*†,
+
+      <a href="#">Ioannis Charisiadis</a>
+      <span class="author-links">
+        <a href="https://www.linkedin.com/in/ioannis-charisiadis-0bb128137" title="LinkedIn"><i class="fa-brands fa-linkedin author-icon"></i></a>
+      </span>
+      <sup>1</sup>,
+
+      <a href="https://compai-lab.github.io/author/marta-hasny/">Marta Hasny</a>
+      <span class="author-links">
+        <a href="https://compai-lab.github.io/author/marta-hasny/" title="Homepage"><i class="fa-solid fa-home author-icon"></i></a>
+        <a href="https://scholar.google.com/citations?user=g7YvYwYAAAAJ&hl=en" title="Google Scholar"><i class="fa-solid fa-graduation-cap author-icon"></i></a>
+        <a href="https://www.linkedin.com/in/marta-hasny/" title="LinkedIn"><i class="fa-brands fa-linkedin author-icon"></i></a>
+      </span>
+      <sup>1</sup>,
+
+      <a href="#">Martin Hartenberger</a>
+      <span class="author-links">
+        <a href="https://www.linkedin.com/in/martin-hartenberger/" title="LinkedIn"><i class="fa-brands fa-linkedin author-icon"></i></a>
+      </span>
+      <sup>1</sup>,
+
+      <a href="https://ommer-lab.com/people/ommer/">Björn Ommer</a>
+      <span class="author-links">
+        <a href="https://ommer-lab.com/people/ommer/" title="Homepage"><i class="fa-solid fa-home author-icon"></i></a>
+        <a href="https://scholar.google.com/citations?user=zWbvIUcAAAAJ" title="Google Scholar"><i class="fa-solid fa-graduation-cap author-icon"></i></a>
+        <a href="https://bsky.app/profile/compvis.bsky.social" title="BlueSky"><i class="fa-solid fa-cloud author-icon"></i></a>
+        <a href="https://www.linkedin.com/company/compvis" title="LinkedIn"><i class="fa-brands fa-linkedin author-icon"></i></a>
+      </span>
+      <sup>2,3</sup>,
+
+      <a href="https://www.cs.cit.tum.de/camp/members/cv-nassir-navab/nassir-navab/">Nassir Navab</a>
+      <span class="author-links">
+        <a href="https://www.cs.cit.tum.de/camp/members/cv-nassir-navab/nassir-navab/" title="Homepage"><i class="fa-solid fa-home author-icon"></i></a>
+        <a href="https://github.com/nassirnavab" title="GitHub"><i class="fa-brands fa-github author-icon"></i></a>
+        <a href="https://scholar.google.com/citations?user=kzoVUPYAAAAJ" title="Google Scholar"><i class="fa-solid fa-graduation-cap author-icon"></i></a>
+        <a href="https://x.com/NassirNavab" title="X (Twitter)"><i class="fa-brands fa-x author-icon"></i></a>
+        <a href="https://www.linkedin.com/in/nassir-navab-0251103/" title="LinkedIn"><i class="fa-brands fa-linkedin author-icon"></i></a>
+      </span>
+      <sup>1,2</sup>,
+
+      <a href="https://stanford.edu/~eadeli/">Ehsan Adeli</a>
+      <span class="author-links">
+        <a href="https://stanford.edu/~eadeli/" title="Homepage"><i class="fa-solid fa-home author-icon"></i></a>
+        <a href="https://github.com/eadeli" title="GitHub"><i class="fa-brands fa-github author-icon"></i></a>
+        <a href="https://scholar.google.com/citations?user=7NX_J_cAAAAJ" title="Google Scholar"><i class="fa-solid fa-graduation-cap author-icon"></i></a>
+        <a href="https://x.com/eadeli" title="X (Twitter)"><i class="fa-brands fa-x author-icon"></i></a>
+        <a href="https://web-cdn.bsky.app/profile/eadeli.bsky.social" title="BlueSky"><i class="fa-solid fa-cloud author-icon"></i></a>
+        <a href="https://www.linkedin.com/in/eadeli/" title="LinkedIn"><i class="fa-brands fa-linkedin author-icon"></i></a>
+      </span>
+      <sup>4</sup>†
+    </p>
+    <p>
+      <sup>1</sup>Technical University of Munich, Munich, Germany &nbsp;&nbsp;
+      <sup>2</sup>Munich Center for Machine Learning, Munich, Germany&nbsp;&nbsp;
+      <sup>3</sup>CompVis @ LMU Munich, Munich, Germany&nbsp;&nbsp;
+      <sup>4</sup>Stanford University, Stanford, CA, USA
+    </p>
+    <p>
+      <a href="mailto:y.yeganeh@tum.de">y.yeganeh@tum.de</a>,
+      <a href="mailto:azade.farshad@tum.de">azade.farshad@tum.de</a>,
+      <a href="mailto:eadeli@stanford.edu">eadeli@stanford.edu</a>
+    </p>
+    <p>
+      <em>*Equal Contribution, †Project Lead</em>
+    </p>
+    <p>📌 Conference on Computer Vision and Pattern Recognition (CVPR), 2025</p>
+  </div>
+</div>
+
+    <div class="buttons">
+      <a href="#" target="_blank">Paper</a>
+      <a href="#" target="_blank">Code</a>
+      <a href="#bibtex">BibTeX</a>
+    </div>
+
+    <!-- Teaser Figure -->
+    <div class="teaser-figure">
+      <img src="images/teaser.jpg" alt="Latent Drifting Teaser Image">
+      <div class="teaser-caption">
+        <strong>Figure 1:</strong> Medical Image Generation and Manipulation using Latent Drifting (LD). Left to right: (1) (text, image)-to-image without ground-truth pairs for disease modification, (2) Aging: (text, image)-to-image with ground-truth pairs, (3) text-to-image without ground-truth pairs for disease synthesis.
+      </div>
+    </div>
+
+    <div class="abstract" id="abstract">
+      <h2>Abstract</h2>
+      <p>Scaling by training on large datasets has been shown to enhance the quality and fidelity of image generation and manipulation with diffusion models; however, such large datasets are not always accessible in medical imaging due to cost and privacy issues, which contradicts one of the main applications of such models to produce synthetic samples where real data is scarce. Also, fine-tuning on pre-trained general models has been a challenge due to the distribution shift between the medical domain and the pre-trained models. Here, we propose Latent Drift (LD) for diffusion models that can be adopted for any fine-tuning method to mitigate the issues faced by the distribution shift or employed in inference time as a condition. Latent Drifting enables diffusion models to be conditioned for medical images fitted for the complex task of counterfactual image generation, which is crucial to investigate how parameters such as gender, age, and adding or removing diseases in a patient would alter the medical images. We evaluate our method on three public longitudinal benchmark datasets of brain MRI and chest X-rays for counterfactual image generation. Our results demonstrate significant performance gains in various scenarios when combined with different fine-tuning schemes.</p>
+    </div>
+
+    <div class="content-section" id="methodology">
+      <h2>Methodology</h2>
+      
+    <div class="method-figure">
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <img src="images/methodld.png" alt="Latent Drifting Method Overview" style="transform: rotate(90deg); max-width: 100%; transform-origin: center;">
+      </div>
+      <div class="teaser-caption">
+        <strong>Figure 2:</strong> Latent Drifting (LD) enables diffusion models to generate high-quality medical images by controlling the trade-off between diversity and condition adherence through the latent drift parameter (δ).
+      </div>
+    </div>
+      
+      <p>Our proposed method, Latent Drifting (LD), is formulated as a min-max optimization problem aiming to match the learned distribution of pre-trained models to a new distribution represented by finite accessible samples. The latent space adds to the traditional conditions (e.g., text or image), and its underlying distribution functions as an additional hyperparameter and conditioning factor.</p>
+      
+      <h3>Key Components</h3>
+      <ul>
+        <li>Formal definition of conditioning based on counterfactual explanation optimization</li>
+        <li>Distribution matching between pre-trained models and target medical domains</li>
+        <li>Latent drift parameter (δ) to control the trade-off between diversity and condition adherence</li>
+        <li>Compatibility with existing fine-tuning approaches for diffusion models</li>
+      </ul>
+      
+      <div class="comparison-table">
+        <table>
+          <thead>
+            <tr>
+              <th>δ = -0.1</th>
+              <th>δ = -0.05</th>
+              <th>δ = 0</th>
+              <th>δ = 0.05</th>
+              <th>δ = 0.1</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><img src="images/latent_drift/musk_n1.png" alt="Musk δ=-0.1"></td>
+              <td><img src="images/latent_drift/musk_of-005.png" alt="Musk δ=-0.05"></td>
+              <td><img src="images/latent_drift/musk_of0.png" alt="Musk δ=0"></td>
+              <td><img src="images/latent_drift/musk_1005.png" alt="Musk δ=0.05"></td>
+              <td><img src="images/latent_drift/musk_of01.png" alt="Musk δ=0.1"></td>
+            </tr>
+            <tr>
+              <td><img src="images/latent_drift/obama_n1.png" alt="Obama δ=-0.1"></td>
+              <td><img src="images/latent_drift/obama_of-005.png" alt="Obama δ=-0.05"></td>
+              <td><img src="images/latent_drift/obama_of0.png" alt="Obama δ=0"></td>
+              <td><img src="images/latent_drift/obama_1005.png" alt="Obama δ=0.05"></td>
+              <td><img src="images/latent_drift/obama_of01.png" alt="Obama δ=0.1"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="teaser-caption">
+          <strong>Figure 3:</strong> Samples generated with identical sampled noise and varying latent drift (δ ∈ [-0.1,0.1]) at inference, with different text prompts. Top: "Elon Musk on a mountain", Bottom: "Barack Obama on a plane".
+        </div>
+      </div>
+      
+      <h3>Applications</h3>
+      <ul>
+        <li>Counterfactual medical image generation conditioned on text and images</li>
+        <li>Disease progression visualization</li>
+        <li>Aging simulation in medical images</li>
+        <li>Gender alteration in medical contexts</li>
+      </ul>
+    </div>
+
+    <div class="content-section" id="results">
+      <h2>Results</h2>
+      
+      <h3>Alzheimer's Disease Transformation</h3>
+      <div class="result-grid">
+        <div class="result-item">
+          <img src="images/brain/ad_orig_1.png" alt="AD Source">
+          <div class="result-label">Source (AD)</div>
+        </div>
+        <div class="result-item">
+          <img src="images/brain/cn_counterfactual_1.png" alt="CN Counterfactual">
+          <div class="result-label">LD (Ours)</div>
+        </div>
+        <div class="result-item">
+          <img src="images/brain/diff_cn_counterfactual_1.png" alt="Difference">
+          <div class="result-label">Difference</div>
+        </div>
+      </div>
+      
+      <h3>Healthy to Alzheimer's Disease</h3>
+      <div class="result-grid">
+        <div class="result-item">
+          <img src="images/brain/cn_orig_0.png" alt="CN Source">
+          <div class="result-label">Source (Healthy)</div>
+        </div>
+        <div class="result-item">
+          <img src="images/brain/ad_counterfactual_0.png" alt="AD Counterfactual">
+          <div class="result-label">LD (Ours)</div>
+        </div>
+        <div class="result-item">
+          <img src="images/brain/diff_ad_counterfactual_0.png" alt="Difference">
+          <div class="result-label">Difference</div>
+        </div>
+      </div>
+      
+      <h3>Brain Aging</h3>
+      <div class="result-grid">
+        <div class="result-item">
+          <img src="images/aging/source1_box.png" alt="Young Source">
+          <div class="result-label">Source (Young)</div>
+        </div>
+        <div class="result-item">
+          <img src="images/aging/target1_box.png" alt="Old Target">
+          <div class="result-label">Target (Old)</div>
+        </div>
+        <div class="result-item">
+          <img src="images/aging/results1_box.png" alt="LD Result">
+          <div class="result-label">LD (Ours)</div>
+        </div>
+      </div>
+      
+      <h3>Chest X-ray Disease Generation</h3>
+      <div class="result-grid">
+        <div class="result-item">
+          <img src="images/chest/pneumonia_real.jpg" alt="Real Pneumonia">
+          <div class="result-label">Real Sample</div>
+        </div>
+        <div class="result-item">
+          <img src="images/chest/pneumonia_no_drift.png" alt="Without LD">
+          <div class="result-label">Without LD</div>
+        </div>
+        <div class="result-item">
+          <img src="images/chest/pneumonia_drift.png" alt="With LD">
+          <div class="result-label">With LD (Ours)</div>
+        </div>
+      </div>
+      
+      <p>We evaluate our method on three public longitudinal benchmark datasets:</p>
+      <ul>
+        <li>Two brain MRI datasets (ADNI and OASIS)</li>
+        <li>One chest X-ray dataset (CheXpert)</li>
+      </ul>
+      
+      <p>Our experiments demonstrate that Latent Drifting significantly improves the performance of diffusion models for medical image generation and manipulation across various scenarios:</p>
+      <ul>
+        <li>Enhanced image quality and fidelity to medical conditions</li>
+        <li>Successful counterfactual image generation preserving important anatomical structures</li>
+        <li>Improved classification accuracy when training on synthetically generated images</li>
+        <li>Compatibility with different fine-tuning schemes</li>
+      </ul>
+    </div>
+
+    <div class="content-section" id="conclusion">
+      <h2>Conclusion</h2>
+      <p>We presented Latent Drifting (LD), a novel approach for enhancing diffusion models for medical image generation and manipulation. Our method addresses the challenges of distribution shift between natural and medical images, enabling high-quality counterfactual medical image synthesis. By formulating conditioning as a counterfactual explanation optimization problem, LD provides a more restrictive way of conditioning suited for medical applications.</p>
+      
+      <p>The key advantages of our approach include:</p>
+      <ul>
+        <li>Model-agnostic enhancement that can be adopted for any fine-tuning method</li>
+        <li>Capability to generate high-quality medical images with preserved anatomical structures</li>
+        <li>Effective counterfactual conditioning for attributes like age, gender, and disease state</li>
+        <li>Significant performance improvement when combined with different fine-tuning schemes</li>
+      </ul>
+      
+      <p>Future work will explore the application of Latent Drifting to other medical imaging modalities and investigate its potential for clinical decision support through counterfactual reasoning.</p>
+    </div>
+
+    <div class="bibtex-section" id="bibtex">
+      <h2>BibTeX</h2>
+      <button class="bibtex-copy-button" onclick="copyBibTeX()">
+        Copy to Clipboard
+      </button>
+      <pre>
+        <code class="language-bibtex">
+@inproceedings{yeganeh2025latent,
+  title={Latent Drifting in Diffusion Models for Counterfactual Medical Image Synthesis},
+  author={Yeganeh, Yousef and Farshad, Azade and Charisiadis, Ioannis and Hasny, Marta and Hartenberger, Martin and Ommer, Björn and Navab, Nassir and Adeli, Ehsan},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2025}
+}
+        </code>
+      </pre>
+    </div>
+
+    <div class="content-section" id="acknowledgement">
+      <h2>Acknowledgement</h2>
+      <p>This work was supported by the Munich Center for Machine Learning (MCML) and is part of the Munich-based consortium "Electronic Health Initiative for Oncology (EHIO)". We thank the members of the CompVis group at LMU Munich and the CAMP group at Technical University of Munich for their valuable feedback.</p>
+    </div>
+
+    <div class="footer">
+      <p>© 2025 Technical University of Munich, LMU Munich, Stanford University. All rights reserved.</p>
+      <p>
+        Website template free to borrow from
+        <a
+          href="https://github.com/indramal/iNdra-GitHub-Page-Template-For-Resarch"
+          >here</a
+        >.
+      </p>
+    </div>
+
+    <button class="scrollUpBtn" id="scrollUpBtn" onclick="scrollToTop()">
+      ⬆
+    </button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
