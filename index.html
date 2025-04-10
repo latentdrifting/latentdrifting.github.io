@@ -163,6 +163,28 @@
         display: block;
         margin: 0 auto;
       }
+      .logos-section {
+        text-align: center;
+        margin-top: 30px;
+      }
+
+      .logos-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .logo {
+        max-width: 100px;
+        max-height: 50px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.1);
+      }
     </style>
   </head>
   <body>
@@ -260,26 +282,44 @@
     <p>
       <a href="mailto:y.yeganeh@tum.de">y.yeganeh@tum.de</a>,
       <a href="mailto:azade.farshad@tum.de">azade.farshad@tum.de</a>,
-      <a href="mailto:eadeli@stanford.edu">eadeli@stanford.edu</a>
     </p>
     <p>
       <em>*Equal Contribution, †Project Lead</em>
     </p>
     <p>(🔆 Highlight Paper) 📌 Conference on Computer Vision and Pattern Recognition (CVPR), 2025</p>
   </div>
+  <div class="logos-section">
+    <h3>Collaborating Institutions</h3>
+    <div class="logos-container">
+      <img src="images/logos/01_CAMP.png" alt="Logo 01" class="logo">
+      <img src="images/logos/02_StanfordSTAI.png" alt="Logo 02" class="logo">
+      <img src="images/logos/03_CompVIs.png" alt="Logo 03" class="logo">
+    </div>
+    <div class="logos-container">
+      <img src="images/logos/04_tum_logo.jpg" alt="Logo 04" class="logo">
+      <img src="images/logos/05_Stanford.png" alt="Logo 05" class="logo">
+      <img src="images/logos/06_LMU.png" alt="Logo 06" class="logo">
+      <img src="images/logos/07_MCML.png" alt="Logo 07" class="logo">
+    </div>
+  </div>
 </div>
 
     <div class="buttons">
-      <a href="#" target="_blank">Paper</a>
+      <a href="https://arxiv.org/abs/2412.20651" target="https://arxiv.org/abs/2412.20651">Paper</a>
       <a href="#" target="_blank">Code</a>
       <a href="#bibtex">BibTeX</a>
     </div>
 
     <!-- Teaser Figure -->
     <div class="teaser-figure">
-      <img src="images/teaser.jpg" alt="Latent Drifting Teaser Image">
+      <img src="images/latent_drift/w_wo.png" alt="Latent Drifting Teaser Image" style="margin-bottom: 20px;">
       <div class="teaser-caption">
-        <strong>Figure 1:</strong> Medical Image Generation and Manipulation using Latent Drifting (LD). Left to right: (1) (text, image)-to-image without ground-truth pairs for disease modification, (2) Aging: (text, image)-to-image with ground-truth pairs, (3) text-to-image without ground-truth pairs for disease synthesis.
+        <strong> Image Generation w. and w/o. LD during fine-tuning. Examples generated from left to right using Textual Inversion.</strong>
+      </div>
+      
+      <img src="images/chest/CheXpert.png" alt="Latent Drifting Teaser Image" style="margin-top: 20px;">
+      <div class="teaser-caption">
+        <strong> Generated counterfactual samples on CheXpert using Pix2Pix Zero + LD.</strong>
       </div>
     </div>
 
@@ -291,15 +331,15 @@
     <div class="content-section" id="methodology">
       <h2>Methodology</h2>
       
-    <div class="method-figure">
-      <div style="width: 100%; padding-bottom: 70%; position: relative;">
-        <img src="images/methodld.png" alt="Latent Drifting Method Overview" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(90deg); max-width: 80vh; max-height: 100%; width: auto; height: auto; object-fit: contain;">
+    <div class="teaser-figure">
+      <div style="width: 100%; padding-bottom: 100%; position: relative;">
+        <img src="images/methodld.png" alt="Latent Drifting Method Overview" style="position: absolute; top:0%; left: 50%; transform: translate(-50%, 0%) rotate(-90deg); max-width: 80vh; max-height: 100%; width: auto; height: auto; object-fit: contain;">
       </div>
       <div class="teaser-caption">
         <strong>Figure 2:</strong> Latent Drifting (LD) enables diffusion models to generate high-quality medical images by controlling the trade-off between diversity and condition adherence through the latent drift parameter (δ).
       </div>
     </div>
-      
+          
       <p>Our proposed method, Latent Drifting (LD), is formulated as a min-max optimization problem aiming to match the learned distribution of pre-trained models to a new distribution represented by finite accessible samples. The latent space adds to the traditional conditions (e.g., text or image), and its underlying distribution functions as an additional hyperparameter and conditioning factor.</p>
       
       <h3>Key Components</h3>
